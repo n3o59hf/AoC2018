@@ -1,0 +1,46 @@
+#ip 4
+#Hand-optimized assembly, not real input
+#added instruction dixy where x and y can be i or r, for integer division
+seti 16 0 4 #4 always 0 here as 4 is ip, unconditional jump to #3
+seti 1 0 3
+seti 1 0 1
+#1
+#        mulr 3 1 2 #label 1 jump out to additional block #2 and then back
+        seti 19 0 4
+        eqrr 2 5 2 #basically iterate until 3 * 1 = 5 and increment 3 by 1 each cycle
+        addr 2 4 4 #if equals, skip next instruction
+        addi 4 1 4 #if not, skip next instruction
+        addr 3 0 0 #add resulting multiplier to 0
+        addi 1 1 1
+        gtrr 1 5 2
+        addr 4 2 4
+        seti 2 0 4 #goto 1
+#4
+addi 3 1 3
+gtrr 3 5 2
+addr 2 4 4
+seti 1 0 4
+seti -2 0 4 #halt
+#3 jump from first command
+seti 10551329 0 5 #setting initial parameters for reg 0 == 1
+seti 0 0 0
+seti 0 0 4
+#2
+gtri 1 1 6 #if 2 is set
+addr 4 6 4 #skip next step
+dirr 5 3 1 #set initial value to integer division
+mulr 3 1 2 # do usual stuff
+gtrr 2 5 6 #if multiplier is larger, jump out to large increment
+addr 4 6 4 # skip next if 2 > 5
+seti 3 0 4 # return normally
+seti 11 0 4 #Jump to #4 to escape
+noop 0 0 0
+noop 0 0 0
+noop 0 0 0
+noop 0 0 0
+noop 0 0 0
+noop 0 0 0
+noop 0 0 0
+noop 0 0 0
+noop 0 0 0
+seti 0 0 4 # return to start
